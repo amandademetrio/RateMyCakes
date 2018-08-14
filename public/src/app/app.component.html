@@ -1,0 +1,84 @@
+<div class="container mt-3 mb-3">
+  <!-- Title -->
+  <div class="row mt-2 mb-4">
+    <div class="col-12">
+      <h1 class="display-4 text-center">Rate My Cakes</h1>
+    </div>
+  </div>
+  <!-- Submit a cake for review -->
+  <div class="row mt-2 mb-2">
+    <div class="col-1"></div>
+    <div class="col-10">
+      <h4 class="mb-3">Submit a cake to be rated</h4>
+        <form (submit)="onSubmitCake(newCake)">
+            <div class="form-group">
+              <label>Cake name:</label>
+              <input type="text" class="form-control" name="newCake.name" [(ngModel)]="newCake.name">
+            </div>
+            <div class="form-group">
+              <label>Baker name:</label>
+              <input type="text" class="form-control" name="newCake.baker" [(ngModel)]="newCake.baker">
+            </div>
+            <div class="form-group">
+              <label>Cake Image:</label>
+              <input type="text" class="form-control" name="newCake.image" [(ngModel)]="newCake.image">
+            </div>
+            <input type="submit" role="button" class="btn btn-primary float-right" value="Submit">
+          </form>
+    </div>
+    <div class="col-1"></div>
+  </div>
+  <!-- Dividing line -->
+  <hr>
+  <!-- Cakes available for review -->
+  <div class="row mt-2 mb-2">
+    <div class="col-6 card p-3" style="height: 500px;overflow-y: scroll;">
+      <div *ngFor="let cake of cakes.reverse()" class="mb-3">
+        <div class="row">
+            <div class="col-12">
+            <h6 class="text-center">{{cake.name}}</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+            <p class="small text-center">Baker: {{cake.baker}}</p>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <img [src]="cake.image" style="width: 250px">
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12">
+                <button type="button" class="btn btn-primary float-right" (click)="showRate(cake)">Rate this cake</button>
+              </div>
+            </div>
+              <form *ngIf="cake.showRatingBox" (submit)="onSubmitRating(newRating,cake)">
+                <div class="form-group">
+                  <label>Rate</label>
+                  <select class="form-control" name="newRating.rating" [(ngModel)]="newRating.rating">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                    <label>Comments:</label>
+                    <textarea type="text" class="form-control" name="newRating.comment" [(ngModel)]="newRating.comment"></textarea>
+                </div>
+                <input type="submit" class="btn btn-success float-right" value="Send">
+                </form>
+              <button type="button" class="btn btn-secondary float-right mt-2" (click)="taskToShow(cake)">More About This Cake</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Cake detail and rating - nested component -->
+    <div class="col-6">
+       <app-cake *ngIf="selectedTask" [taskToShow]="selectedTask"></app-cake>
+    </div>
+  </div>
+</div>
